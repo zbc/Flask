@@ -3,6 +3,7 @@ from flask import render_template, flash, redirect, session, url_for, request, g
 from flask.ext.login import login_user, logout_user, current_user, login_required
 from forms import LoginForm
 from models import User
+from datetime import datetime
 
 @app.route('/')
 @app.route('/index')
@@ -61,8 +62,25 @@ def after_login(resp):
 @app.before_request
 def before_request():
     g.user = current_user
+    if g.user.is_authenticated:
+        g.user.last_seen = datetime.utcnow()
+        db.session.add(g.user)
+        db.session.commit()
 
 @app.route('/logout')
 def logout():
     logout_user()
     return redirect(url_for('index'))
+
+@app.route('/user/<nickname>')
+def user(nickname):
+    user = User.query.filter_by(nickname = nickname).first()
+    if user is None:
+        flash('User %s is not found' % user)
+        return redirect(url_for('index'))
+    posts = [
+        {'author': user, 'body':'Test post #1'},
+        {'author': user, 'body':'Test post #2'},
+        {'author': user, 'body':'Test post #3'}
+    ]
+    return render_template('user.html', user = user, posts = posts)
