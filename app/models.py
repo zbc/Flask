@@ -9,6 +9,18 @@ class User(db.Model):
     about_me = db.Column(db.String(140))
     last_seen = db.Column(db.DateTime)
 
+    @staticmethod
+    def make_unique_nickname(nickname):
+        if User.query.filter_by(nickname = nickname).first() is None:
+            return nickname
+        version = 1
+        while True:
+            newnickname = nickname + str(version)
+            if User.query.filter_by(nickname = newnickname).first() is None:
+                break
+            version += 1
+        return newnickname
+        
     @property
     def is_authenticated(self):
         return True
