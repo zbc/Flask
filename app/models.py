@@ -68,6 +68,10 @@ class User(db.Model):
             self.followed.remove(user)
             return self
 
+    def followed_posts(self):
+        return Post.query.join(followers, (Post.user_id == followers.c.followed_id)).filter(followers.c.follower_id == self.id).order_by(Post.timestamp.desc())
+
+
 class Post(db.Model):
     id = db.Column(db.Integer, primary_key = True)
     body = db.Column(db.String(140))
