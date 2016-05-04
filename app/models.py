@@ -55,9 +55,6 @@ class User(db.Model):
     def __repr__():
         return "User: %r" % (self.nickname)
 
-    def is_following(self, user):
-        return self.followed.filter(followers.c.followed_id == user.id).count() > 0
-
     def follow(self, user):
         if not self.is_following(user):
             self.followed.append(user)
@@ -68,9 +65,11 @@ class User(db.Model):
             self.followed.remove(user)
             return self
 
-    def followed_posts(self):
-        return Post.query.join(followers, (Post.user_id == followers.c.followed_id)).filter(followers.c.follower_id == self.id).order_by(Post.timestamp.desc())
+    def is_following(self, user):
+        return self.followed.filter(followers.c.followed_id == user.id).count() > 0
 
+    def followed_posts(self):
+        return Post.query.join(followers, (followers.c.followed_id == Post.user_id)).filter(followers.c.follower_id == self.id).order_by(Post.timestamp.desc())
 
 class Post(db.Model):
     id = db.Column(db.Integer, primary_key = True)
