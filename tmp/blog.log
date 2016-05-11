@@ -67,3 +67,6 @@
 2016-05-09 19:40:04,972 INFO: blog startup [in /vagrant/app/__init__.py:34]
 2016-05-09 19:40:05,491 INFO: blog startup [in /vagrant/app/__init__.py:34]
 2016-05-09 19:40:26,211 INFO: blog startup [in app/__init__.py:34]
+2016-05-11 16:54:45,373 INFO: blog startup [in /vagrant/app/__init__.py:34]
+2016-05-11 16:54:46,047 INFO: blog startup [in /vagrant/app/__init__.py:34]
+2016-05-11 16:58:31,109 INFO: blog startup [in /vagrant/app/__init__.py:34]

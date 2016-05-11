@@ -37,6 +37,7 @@
               <li class="active"><a href="{{ url_for('index') }}">Home <span class="sr-only">(current)</span></a></li>
               {% if g.user.is_authenticated %}
               <li><a href="{{ url_for('user', nickname = g.user.nickname )}}">Your Profile</a></li>
+              <li><form style="display: inline;" action="{{ url_for('search') }}" method="post" name="search">{{ g.search_form.hidden_tag() }}{{ g.search_form.search(size=20) }}<input type="submit" value="Search"></form></li>
               <li><a href="{{ url_for('logout') }}">Logout</a></li>
               {% endif %}
             </ul>
@@ -59,4 +60,4 @@
 
 
   </body>
-</html
+</html>
